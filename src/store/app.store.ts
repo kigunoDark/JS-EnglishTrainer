@@ -1,4 +1,4 @@
-import { setIsWordInErrorState, setMissingSpelling } from "../app";
+import { setMissingSpelling } from "../app";
 import {
   ENDGAME_DURATION,
   ERROR_DURATION,
@@ -24,7 +24,7 @@ export function createProxy({
         target.shuffledWord = shuffleWord(target.currentWord);
         target.inputLetters = "";
         target.currentLevelErrors = 0;
-        setIsWordInErrorState(false);
+        target.isWordInErrorState = false;
         value = "";
       }
 
@@ -57,7 +57,7 @@ export function createProxy({
 
       function errorHandler() {
         if (target.currentLevelErrors === maxErrors) {
-          setIsWordInErrorState(true);
+          target.isWordInErrorState = true;
           answerElement.innerHTML = target.currentWord;
           setTimeout(() => {
             advanceToNextLevelOrFinish();

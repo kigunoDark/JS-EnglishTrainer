@@ -1,5 +1,5 @@
 import { IInitInterfaceManager } from "./app.types";
-import { isWordInErrorState, missSpelling, setMissingSpelling } from "./app";
+import { missSpelling, setMissingSpelling } from "./app";
 import { LETTER_ANIMATION_DURATION } from "./data/app.constants";
 
 export function initInterfaceManager({
@@ -69,7 +69,7 @@ export function initInterfaceManager({
   };
 
   const onKeyButtonClick = (letter: string, i: number): void => {
-    if (isWordInErrorState) return;
+    if (state.isWordInErrorState) return;
     changeLetterStyle(letter, lettersElement, i);
     setMissingSpelling(false);
   };

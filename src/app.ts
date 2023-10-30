@@ -3,15 +3,10 @@
 import { initInterfaceManager } from "./app.component";
 import { IAppRender, IAppState } from "./app.types";
 import { localCash } from "./data/local-cash";
-export let isWordInErrorState: boolean = false;
 export let missSpelling: boolean = false;
 
 export function setMissingSpelling(value: boolean) {
   missSpelling = value;
-}
-
-export function setIsWordInErrorState(value: boolean) {
-  isWordInErrorState = value;
 }
 
 export async function runApp({
@@ -43,6 +38,7 @@ export async function runApp({
           shuffledWord: shuffleWord(sessionWords[0]),
           inputLetters: "",
           totalErrors: 0,
+          isWordInErrorState: false,
           currentLevelErrors: 0,
           totalRightWords: 0,
           maxWordErrors: 0,

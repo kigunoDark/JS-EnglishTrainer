@@ -47,4 +47,5 @@ export interface IAppState {
   maxWordErrors: number;
   weaknessWord: string;
   currentWordIndex: number;
+  isWordInErrorState: boolean;
 }
