@@ -63,3 +63,26 @@ import("./store/app.store"),
 ]);
 ```
 данное решение было сделанно, чтобы получать все необходимое до старта приложения и формирования нашего стейта, иначе могут быть ошибки. В Одном файле все четко, мы можем котролировать местоположение,  что и когда вызывать.
+
+
+## localCash
+
+```
+export const localCash = {
+  getDataFromStore: function (): IAppState | null {
+    const savedStateJSON = localStorage.getItem("appState");
+
+    return savedStateJSON && JSON.parse(savedStateJSON);
+  },
+  removeDataFromStorage: function (): void {
+    localStorage.removeItem("appState");
+  },
+  saveDataInStorage: function (state: IAppState): void {
+    const stateJSON = JSON.stringify(state);
+    localStorage.setItem("appState", stateJSON);
+  },
+};
+
+```
+
+Для бонусного пункта я решил сохранять все в localStorage - так как в целом, данный фунционал пока действует в рамках нашего задания, это можно расширить в дальнейшем, используя webworkers по крайней мере, чтобы релизовать пункт с другими вкладками если я правильно понял условие. 
