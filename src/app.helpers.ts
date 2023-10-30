@@ -22,23 +22,32 @@ function drawEndTable({
   totalErrors,
   weaknessWord,
 }: IDrawEndTableParams) {
-  const totalRightWordsElement = document.createElement("div");
-  const totalErrorsElement = document.createElement("div");
-  const weaknessWordElement = document.createElement("div");
+  const endGameContainer: HTMLElement | null =
+    document.querySelector(".output-element");
+  const totalRightWordsElement: HTMLElement | null =
+    document.getElementById("totalRightWords");
+  const totalErrorsElement: HTMLElement | null =
+    document.getElementById("totalErrors");
+  const weaknessWordElement: HTMLElement | null =
+    document.getElementById("weaknessWord");
 
   answerElement.innerHTML = "";
-
   lettersElement.hidden = true;
 
-  totalRightWordsElement.textContent = `Total Right Words: ${totalRightWords}\n`;
+  if (
+    endGameContainer &&
+    totalErrorsElement &&
+    weaknessWordElement &&
+    totalRightWordsElement
+  ) {
+    totalRightWordsElement.textContent = `Total Right Words: ${totalRightWords}\n`;
 
-  totalErrorsElement.textContent = `Total Errors: ${totalErrors}\n`;
+    totalErrorsElement.textContent = `Total Errors: ${totalErrors}\n`;
 
-  weaknessWordElement.textContent = `Weakness Word: ${weaknessWord}\n`;
+    weaknessWordElement.textContent = `Weakness Word: ${weaknessWord}\n`;
 
-  answerElement.appendChild(totalRightWordsElement);
-  answerElement.appendChild(totalErrorsElement);
-  answerElement.appendChild(weaknessWordElement);
+    endGameContainer.style.display = "block";
+  }
 }
 
 export { shuffleArray, shuffleWord, drawEndTable };

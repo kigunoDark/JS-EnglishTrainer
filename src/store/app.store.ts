@@ -1,4 +1,8 @@
-import { setIsWordInErrorState, setMissingSpelling } from "../app";
+import {
+  setCurrentIndex,
+  setIsWordInErrorState,
+  setMissingSpelling,
+} from "../app";
 import {
   ENDGAME_DURATION,
   ERROR_DURATION,
@@ -9,18 +13,19 @@ import { IAppState, ICreateProxy } from "../app.types";
 export function createProxy({
   initialState,
   sessionWords,
-  currentWordIndex,
   answerElement,
+  currentWordIndex,
   lettersElement,
   shuffleWord,
   render,
   drawEndTable,
 }: ICreateProxy) {
   const maxErrors: number = 3;
+  let index = currentWordIndex;
   const stateHandler = {
     set(target: IAppState, property: string, value: string): boolean {
       function updateGameNextState() {
-        target.currentWord = sessionWords[currentWordIndex];
+        target.currentWord = sessionWords[index];
         target.shuffledWord = shuffleWord(target.currentWord);
         target.inputLetters = "";
         target.currentLevelErrors = 0;
@@ -29,10 +34,13 @@ export function createProxy({
       }
 
       function gameManager() {
-        currentWordIndex++;
-        if (currentWordIndex < sessionWords.length) {
+        setCurrentIndex(index++);
+
+        if (index < sessionWords.length) {
+          console.log("Win");
+          console.log(index);
           updateGameNextState();
-          setTimeout(() => render(), SUCCESS_DURATION);
+          setTimeout(() => render(currentWordIndex), SUCCESS_DURATION);
         } else {
           setTimeout(() => {
             drawEndTable({
@@ -63,18 +71,18 @@ export function createProxy({
       }
 
       function setWeaknessWord() {
-        if (!target || !sessionWords || currentWordIndex < 0) {
+        if (!target || !sessionWords || index < 0) {
           return;
         }
 
         if (target.currentLevelErrors > target.maxWordErrors) {
           target.maxWordErrors = target.currentLevelErrors;
-          target.weaknessWord = sessionWords[currentWordIndex];
+          target.weaknessWord = sessionWords[index];
         } else if (
           target.currentLevelErrors === target.maxWordErrors &&
           target.currentLevelErrors
         ) {
-          target.weaknessWord = sessionWords[currentWordIndex];
+          target.weaknessWord = sessionWords[index];
         }
       }
 

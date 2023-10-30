@@ -64,7 +64,6 @@ h2 {
 }
 
 #letters button {
-    background-color: #ffeb3b;
     color: #000;
     border: none;
     border-radius: 6px;
@@ -74,12 +73,26 @@ h2 {
     transition: background-color 0.2s;
 }
 
-#letters button:hover {
-    background-color: #c8a215
-}
+
 
 #current_question,
 #total_questions {
     font-weight: bold;
     color: #ffeb3b;
+}
+
+.output-element {
+    display: none;
+    background-color: #ffeb3b;
+    color: #000;
+    border: 2px solid #ffeb3b;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 1.2rem;
+    margin: 10px;
+    text-align: center;
+}
+
+.output-element p {
+    margin: 0;
 }

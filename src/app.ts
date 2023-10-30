@@ -6,10 +6,14 @@ import { IAppRender, IAppState } from "./app.types";
 
 export let isWordInErrorState: boolean = false;
 export let missSpelling: boolean = false;
-export let currentWordIndex: number = 0;
+export let currentWordIndex: number = 1;
 
 export function setMissingSpelling(value: boolean) {
   missSpelling = value;
+}
+
+export function setCurrentIndex(value: number) {
+  currentWordIndex = value;
 }
 
 export function setIsWordInErrorState(value: boolean) {
@@ -63,7 +67,7 @@ export async function runApp({
 
     window.addEventListener("keydown", onKeyPress);
 
-    function render() {
+    function render(currentWordIndex: number) {
       answerElement.innerHTML = "";
       lettersElement.innerHTML = "";
       lettersElement.hidden = false;
@@ -74,11 +78,13 @@ export async function runApp({
         letterButton.hidden = false;
         lettersElement.appendChild(letterButton);
       });
-      currentQuestionElement.textContent = String(currentWordIndex + 1);
+      currentQuestionElement.textContent = String(
+        currentWordIndex <= 1 ? currentWordIndex : currentWordIndex + 1
+      );
       totalQuestionsElement.textContent = String(sessionWords.length);
     }
 
-    render();
+    render(currentWordIndex);
   } catch (error) {
     alert(TRASH_ERROR_NOTIFICATION);
   }

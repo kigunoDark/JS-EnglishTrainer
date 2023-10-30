@@ -21,7 +21,7 @@ export type ICreateProxy = Pick<
   initialState: IAppState;
   sessionWords: string[];
   shuffleWord: (word: string) => string[];
-  render: () => void;
+  render: (currentWordIndex: number) => void;
   drawEndTable: (params: IDrawEndTableParams) => void;
 };
 
