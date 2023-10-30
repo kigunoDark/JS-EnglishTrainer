@@ -1,3 +1,4 @@
+import { localCash } from "./data/local-cash";
 import { IDrawEndTableParams } from "./app.types";
 
 const shuffleArray = (array: string[]): string[] => {
@@ -22,6 +23,7 @@ function drawEndTable({
   totalErrors,
   weaknessWord,
 }: IDrawEndTableParams) {
+  localCash.removeDataFromStorage();
   const endGameContainer: HTMLElement | null =
     document.querySelector(".output-element");
   const totalRightWordsElement: HTMLElement | null =

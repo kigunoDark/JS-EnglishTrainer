@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && npx webpack --mode production",
-    "start": "npm run build && npx webpack serve --mode development --open"
+    "start": "npm run build  && npx webpack serve --mode development --open  --watch"
   },
   "repository": {
     "type": "git",

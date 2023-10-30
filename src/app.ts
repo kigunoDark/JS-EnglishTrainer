@@ -1,9 +1,8 @@
-// сохраанять
 // темплейты глянуть и добавить
 
 import { initInterfaceManager } from "./app.component";
 import { IAppRender, IAppState } from "./app.types";
-
+import { localCash } from "./data/local-cash";
 export let isWordInErrorState: boolean = false;
 export let missSpelling: boolean = false;
 export let currentWordIndex: number = 1;
@@ -39,16 +38,20 @@ export async function runApp({
   try {
     let sessionWords: string[] = shuffleArray(WORDS_LIST);
 
-    const initialState: IAppState = {
-      currentWord: sessionWords[currentWordIndex],
-      shuffledWord: shuffleWord(sessionWords[currentWordIndex]),
-      inputLetters: "",
-      totalErrors: 0,
-      currentLevelErrors: 0,
-      totalRightWords: 0,
-      maxWordErrors: 0,
-      weaknessWord: "You Have A Perfect Memory!",
-    };
+    const savedState = localCash.getDataFromStore();
+
+    const initialState: IAppState = savedState
+      ? savedState
+      : {
+          currentWord: sessionWords[currentWordIndex],
+          shuffledWord: shuffleWord(sessionWords[currentWordIndex]),
+          inputLetters: "",
+          totalErrors: 0,
+          currentLevelErrors: 0,
+          totalRightWords: 0,
+          maxWordErrors: 0,
+          weaknessWord: "You Have A Perfect Memory!",
+        };
 
     const state = createProxy({
       initialState,
@@ -68,6 +71,8 @@ export async function runApp({
     window.addEventListener("keydown", onKeyPress);
 
     function render(currentWordIndex: number) {
+      const stateJSON = JSON.stringify(state);
+      localStorage.setItem("appState", stateJSON);
       answerElement.innerHTML = "";
       lettersElement.innerHTML = "";
       lettersElement.hidden = false;
