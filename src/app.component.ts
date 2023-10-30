@@ -1,9 +1,13 @@
 import { IInitInterfaceManager } from "./app.types";
 import { missSpelling, setMissingSpelling } from "./app";
-import { LETTER_ANIMATION_DURATION } from "./data/app.constants";
+import {
+  LETTER_ANIMATION_DURATION,
+  SIMPLE_WRONG_LANGUAGE_WARNING,
+} from "./data/app.constants";
 
 export const initInterfaceManager = ({
   lettersElement,
+  warningElement,
   state,
 }: IInitInterfaceManager) => {
   const handleKeyPress = (event: { key: string }): void => {
@@ -11,6 +15,10 @@ export const initInterfaceManager = ({
     if (key.match(/^[a-z]$/i)) {
       let index = hideExistingLetter(lettersElement, key);
       onKeyButtonClick(key, index);
+      warningElement.style.display = "none";
+    } else {
+      warningElement.style.display = "block";
+      warningElement.textContent = SIMPLE_WRONG_LANGUAGE_WARNING;
     }
   };
 

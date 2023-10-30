@@ -1,5 +1,4 @@
-// темплейты глянуть и добавить
-
+import { ABSOLUTE_WINNER } from "./data/app.constants";
 import { initInterfaceManager } from "./app.component";
 import { IAppRender, IAppState } from "./app.types";
 import { localCash } from "./data/local-cash";
@@ -14,6 +13,7 @@ export const runApp = async ({
   lettersElement,
   currentQuestionElement,
   totalQuestionsElement,
+  warningElement,
 }: IAppRender) => {
   const [
     { WORDS_LIST, TRASH_ERROR_NOTIFICATION },
@@ -42,7 +42,7 @@ export const runApp = async ({
           currentLevelErrors: 0,
           totalRightWords: 0,
           maxWordErrors: 0,
-          weaknessWord: "You Have A Perfect Memory!",
+          weaknessWord: ABSOLUTE_WINNER,
         };
 
     const render = (state: IAppState) => {
@@ -73,7 +73,7 @@ export const runApp = async ({
     });
 
     const { onKeyButtonClick, createButton, onKeyPress } = initInterfaceManager(
-      { lettersElement, state }
+      { lettersElement, warningElement, state }
     );
 
     window.addEventListener("keydown", onKeyPress);

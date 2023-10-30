@@ -6,16 +6,20 @@ import "./index.html";
 const appStart = () => {
   const answerElement: HTMLElement = document.getElementById("answer")!;
   const lettersElement: HTMLElement = document.getElementById("letters")!;
+  const warningElement: HTMLElement =
+    document.querySelector(".warning-element")!;
   const currentQuestionElement: HTMLElement =
     document.getElementById("current_question")!;
   const totalQuestionsElement: HTMLElement =
     document.getElementById("total_questions")!;
 
+  console.log(warningElement);
   if (
     answerElement &&
     lettersElement &&
     currentQuestionElement &&
-    totalQuestionsElement
+    totalQuestionsElement &&
+    warningElement
   ) {
     typeof window !== "undefined" &&
       runApp({
@@ -23,6 +27,7 @@ const appStart = () => {
         lettersElement,
         currentQuestionElement,
         totalQuestionsElement,
+        warningElement,
       });
   } else {
     alert(START_PAGE_RENDER_FAILED);
