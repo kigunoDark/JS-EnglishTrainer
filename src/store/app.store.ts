@@ -6,7 +6,7 @@ import {
 } from "../data/app.constants";
 import { IAppState, ICreateProxy } from "../app.types";
 
-export function createProxy({
+export const createProxy = ({
   initialState,
   sessionWords,
   answerElement,
@@ -14,28 +14,26 @@ export function createProxy({
   shuffleWord,
   render,
   drawEndTable,
-}: ICreateProxy) {
+}: ICreateProxy) => {
   const maxErrors: number = 3;
 
   const stateHandler = {
     set(target: IAppState, property: string, value: string): boolean {
-      function updateGameNextState() {
+      const updateGameNextState = () => {
         target.currentWord = sessionWords[target.currentWordIndex];
         target.shuffledWord = shuffleWord(target.currentWord);
         target.inputLetters = "";
         target.currentLevelErrors = 0;
         target.isWordInErrorState = false;
         value = "";
-      }
+      };
 
-      function gameManager() {
+      const gameManager = () => {
         target.currentWordIndex++;
 
         if (target.currentWordIndex < sessionWords.length) {
-          console.log("Win");
-          console.log(target.currentWordIndex);
           updateGameNextState();
-          setTimeout(() => render(target.currentWordIndex), SUCCESS_DURATION);
+          setTimeout(() => render(target), SUCCESS_DURATION);
         } else {
           setTimeout(() => {
             drawEndTable({
@@ -48,14 +46,14 @@ export function createProxy({
             target.totalRightWords = 0;
           }, ENDGAME_DURATION);
         }
-      }
+      };
 
-      function advanceToNextLevelOrFinish() {
+      const advanceToNextLevelOrFinish = () => {
         setWeaknessWord();
         gameManager();
-      }
+      };
 
-      function errorHandler() {
+      const errorHandler = () => {
         if (target.currentLevelErrors === maxErrors) {
           target.isWordInErrorState = true;
           answerElement.innerHTML = target.currentWord;
@@ -63,9 +61,9 @@ export function createProxy({
             advanceToNextLevelOrFinish();
           }, ERROR_DURATION);
         }
-      }
+      };
 
-      function setWeaknessWord() {
+      const setWeaknessWord = () => {
         if (!target || !sessionWords || target.currentWordIndex < 0) {
           return;
         }
@@ -79,7 +77,7 @@ export function createProxy({
         ) {
           target.weaknessWord = sessionWords[target.currentWordIndex];
         }
-      }
+      };
 
       if (
         !target.currentWord.includes(value[value.length - 1]) ||
@@ -106,4 +104,4 @@ export function createProxy({
   const state = new Proxy(initialState, stateHandler);
 
   return state;
-}
+};

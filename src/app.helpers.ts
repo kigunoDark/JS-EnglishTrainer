@@ -16,13 +16,13 @@ const shuffleWord = (word: string): string[] => {
   return shuffledWord;
 };
 
-function drawEndTable({
+const drawEndTable = ({
   answerElement,
   lettersElement,
   totalRightWords,
   totalErrors,
   weaknessWord,
-}: IDrawEndTableParams) {
+}: IDrawEndTableParams) => {
   localCash.removeDataFromStorage();
   const endGameContainer: HTMLElement | null =
     document.querySelector(".output-element");
@@ -50,6 +50,6 @@ function drawEndTable({
 
     endGameContainer.style.display = "block";
   }
-}
+};
 
 export { shuffleArray, shuffleWord, drawEndTable };

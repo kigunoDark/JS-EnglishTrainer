@@ -5,16 +5,16 @@ import { IAppRender, IAppState } from "./app.types";
 import { localCash } from "./data/local-cash";
 export let missSpelling: boolean = false;
 
-export function setMissingSpelling(value: boolean) {
+export const setMissingSpelling = (value: boolean) => {
   missSpelling = value;
-}
+};
 
-export async function runApp({
+export const runApp = async ({
   answerElement,
   lettersElement,
   currentQuestionElement,
   totalQuestionsElement,
-}: IAppRender) {
+}: IAppRender) => {
   const [
     { WORDS_LIST, TRASH_ERROR_NOTIFICATION },
     { shuffleArray, shuffleWord, drawEndTable },
@@ -45,6 +45,23 @@ export async function runApp({
           weaknessWord: "You Have A Perfect Memory!",
         };
 
+    const render = (state: IAppState) => {
+      const stateJSON = JSON.stringify(state);
+      localStorage.setItem("appState", stateJSON);
+      answerElement.innerHTML = "";
+      lettersElement.innerHTML = "";
+      lettersElement.hidden = false;
+      state.shuffledWord.forEach((letter: string, i: number) => {
+        const letterButton = createButton(letter, "btn btn-primary", () =>
+          onKeyButtonClick(letter, i)
+        );
+        letterButton.hidden = false;
+        lettersElement.appendChild(letterButton);
+      });
+      currentQuestionElement.textContent = String(state.currentWordIndex + 1);
+      totalQuestionsElement.textContent = String(sessionWords.length);
+    };
+
     const state = createProxy({
       initialState,
       sessionWords,
@@ -61,25 +78,8 @@ export async function runApp({
 
     window.addEventListener("keydown", onKeyPress);
 
-    function render(currentWordIndex: number) {
-      const stateJSON = JSON.stringify(state);
-      localStorage.setItem("appState", stateJSON);
-      answerElement.innerHTML = "";
-      lettersElement.innerHTML = "";
-      lettersElement.hidden = false;
-      state.shuffledWord.forEach((letter: string, i: number) => {
-        const letterButton = createButton(letter, "btn btn-primary", () =>
-          onKeyButtonClick(letter, i)
-        );
-        letterButton.hidden = false;
-        lettersElement.appendChild(letterButton);
-      });
-      currentQuestionElement.textContent = String(currentWordIndex);
-      totalQuestionsElement.textContent = String(sessionWords.length);
-    }
-
-    if (state) render(state.currentWordIndex);
+    if (state) render(state);
   } catch (error) {
     alert(TRASH_ERROR_NOTIFICATION);
   }
-}
+};

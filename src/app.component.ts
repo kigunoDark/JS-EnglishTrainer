@@ -2,10 +2,10 @@ import { IInitInterfaceManager } from "./app.types";
 import { missSpelling, setMissingSpelling } from "./app";
 import { LETTER_ANIMATION_DURATION } from "./data/app.constants";
 
-export function initInterfaceManager({
+export const initInterfaceManager = ({
   lettersElement,
   state,
-}: IInitInterfaceManager) {
+}: IInitInterfaceManager) => {
   const handleKeyPress = (event: { key: string }): void => {
     const key = event.key.toLowerCase();
     if (key.match(/^[a-z]$/i)) {
@@ -81,4 +81,4 @@ export function initInterfaceManager({
     onKeyButtonClick,
     onKeyPress,
   };
-}
+};
