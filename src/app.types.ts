@@ -17,7 +17,6 @@ export type ICreateProxy = Pick<
   IDrawEndTableParams,
   "answerElement" | "lettersElement"
 > & {
-  currentWordIndex: number;
   initialState: IAppState;
   sessionWords: string[];
   shuffleWord: (word: string) => string[];
@@ -47,4 +46,5 @@ export interface IAppState {
   totalRightWords: number;
   maxWordErrors: number;
   weaknessWord: string;
+  currentWordIndex: number;
 }

@@ -5,14 +5,9 @@ import { IAppRender, IAppState } from "./app.types";
 import { localCash } from "./data/local-cash";
 export let isWordInErrorState: boolean = false;
 export let missSpelling: boolean = false;
-export let currentWordIndex: number = 1;
 
 export function setMissingSpelling(value: boolean) {
   missSpelling = value;
-}
-
-export function setCurrentIndex(value: number) {
-  currentWordIndex = value;
 }
 
 export function setIsWordInErrorState(value: boolean) {
@@ -43,8 +38,9 @@ export async function runApp({
     const initialState: IAppState = savedState
       ? savedState
       : {
-          currentWord: sessionWords[currentWordIndex],
-          shuffledWord: shuffleWord(sessionWords[currentWordIndex]),
+          currentWordIndex: 0,
+          currentWord: sessionWords[0],
+          shuffledWord: shuffleWord(sessionWords[0]),
           inputLetters: "",
           totalErrors: 0,
           currentLevelErrors: 0,
@@ -56,7 +52,6 @@ export async function runApp({
     const state = createProxy({
       initialState,
       sessionWords,
-      currentWordIndex,
       answerElement,
       lettersElement,
       shuffleWord,
@@ -83,13 +78,11 @@ export async function runApp({
         letterButton.hidden = false;
         lettersElement.appendChild(letterButton);
       });
-      currentQuestionElement.textContent = String(
-        currentWordIndex <= 1 ? currentWordIndex : currentWordIndex + 1
-      );
+      currentQuestionElement.textContent = String(currentWordIndex);
       totalQuestionsElement.textContent = String(sessionWords.length);
     }
 
-    render(currentWordIndex);
+    if (state) render(state.currentWordIndex);
   } catch (error) {
     alert(TRASH_ERROR_NOTIFICATION);
   }
