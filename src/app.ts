@@ -26,12 +26,14 @@ export const runApp = async ({
   ]);
 
   try {
-    let sessionWords: string[] = shuffleArray(WORDS_LIST);
+    let cashData = localCash.getDataFromStore();
 
-    const savedState = localCash.getDataFromStore();
+    let sessionWords: string[] = cashData
+      ? cashData.savedSessionArray
+      : shuffleArray(WORDS_LIST);
 
-    const initialState: IAppState = savedState
-      ? savedState
+    const initialState: IAppState = cashData
+      ? cashData.savedState
       : {
           currentWordIndex: 0,
           currentWord: sessionWords[0],
@@ -46,8 +48,8 @@ export const runApp = async ({
         };
 
     const render = (state: IAppState) => {
-      const stateJSON = JSON.stringify(state);
-      localStorage.setItem("appState", stateJSON);
+      console.log(sessionWords);
+      localCash.saveDataInStorage(state, sessionWords);
       answerElement.innerHTML = "";
       lettersElement.innerHTML = "";
       lettersElement.hidden = false;

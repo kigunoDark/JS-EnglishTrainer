@@ -1,16 +1,23 @@
-import { IAppState } from "app.types";
+import { AppCash, IAppState } from "app.types";
 
 export const localCash = {
-  getDataFromStore: (): IAppState | null => {
+  getDataFromStore: (): AppCash | null => {
     const savedStateJSON = localStorage.getItem("appState");
+    const savedSessionArray = localStorage.getItem("sessionWords");
 
-    return savedStateJSON && JSON.parse(savedStateJSON);
+    if (savedStateJSON && savedSessionArray) {
+      return {
+        savedState: JSON.parse(savedStateJSON),
+        savedSessionArray: JSON.parse(savedSessionArray),
+      } as AppCash;
+    }
+    return null;
   },
   removeDataFromStorage: (): void => {
-    localStorage.removeItem("appState");
+    localStorage.clear();
   },
-  saveDataInStorage: (state: IAppState): void => {
-    const stateJSON = JSON.stringify(state);
-    localStorage.setItem("appState", stateJSON);
+  saveDataInStorage: (stateJSON: IAppState, sessionArray: string[]): void => {
+    localStorage.setItem("appState", JSON.stringify(stateJSON));
+    localStorage.setItem("sessionWords", JSON.stringify(sessionArray));
   },
 };

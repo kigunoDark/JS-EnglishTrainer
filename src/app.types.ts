@@ -51,3 +51,8 @@ export interface IAppState {
   currentWordIndex: number;
   isWordInErrorState: boolean;
 }
+
+export interface AppCash {
+  savedState: IAppState;
+  savedSessionArray: string[];
+}

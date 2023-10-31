@@ -13,7 +13,6 @@ const appStart = () => {
   const totalQuestionsElement: HTMLElement =
     document.getElementById("total_questions")!;
 
-  console.log(warningElement);
   if (
     answerElement &&
     lettersElement &&
