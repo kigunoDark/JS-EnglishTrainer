@@ -48,7 +48,6 @@ export const runApp = async ({
         };
 
     const render = (state: IAppState) => {
-      console.log(sessionWords);
       localCash.saveDataInStorage(state, sessionWords);
       answerElement.innerHTML = "";
       lettersElement.innerHTML = "";
