@@ -1,13 +1,9 @@
 import { IInitInterfaceManager } from "./app.types";
 import { missSpelling, setMissingSpelling } from "./app";
-import {
-  LETTER_ANIMATION_DURATION,
-  SIMPLE_WRONG_LANGUAGE_WARNING,
-} from "./data/app.constants";
+import { LETTER_ANIMATION_DURATION } from "./data/app.constants";
 
 export const initInterfaceManager = ({
   lettersElement,
-  warningElement,
   state,
 }: IInitInterfaceManager) => {
   const handleKeyPress = (event: { key: string }): void => {
@@ -15,10 +11,6 @@ export const initInterfaceManager = ({
     if (key.match(/^[a-z]$/i)) {
       let index = hideExistingLetter(lettersElement, key);
       onKeyButtonClick(key, index);
-      warningElement.style.display = "none";
-    } else {
-      warningElement.style.display = "block";
-      warningElement.textContent = SIMPLE_WRONG_LANGUAGE_WARNING;
     }
   };
 
@@ -45,6 +37,20 @@ export const initInterfaceManager = ({
     }, LETTER_ANIMATION_DURATION);
   };
 
+  const fillAllRedColor = (errors: number, element: HTMLElement) => {
+    if (errors === 3) {
+      Array.from(element.children).forEach((child: Element) => {
+        if (!child.classList.contains("btn-danger")) {
+          child.classList.replace("btn-primary", "btn-danger");
+        } else {
+          console.log(child);
+          child.classList.remove("btn-primary");
+          child.classList.add("btn-danger");
+        }
+      });
+    }
+  };
+
   const changeLetterStyle = (
     letter: string,
     lettersElement: HTMLElement,
@@ -53,12 +59,13 @@ export const initInterfaceManager = ({
     state.inputLetters += letter;
     let letterElement = lettersElement.children[index] as HTMLButtonElement;
     if (lettersElement.children[index]) {
-      if (!missSpelling) {
+      if (lettersElement.children[index] && !missSpelling) {
         letterElement.hidden = true;
       } else {
         drawDangerButton(letterElement);
       }
     }
+    fillAllRedColor(state.currentLevelErrors, lettersElement);
   };
 
   const createButton = (
@@ -88,5 +95,6 @@ export const initInterfaceManager = ({
     createButton,
     onKeyButtonClick,
     onKeyPress,
+    fillAllRedColor,
   };
 };

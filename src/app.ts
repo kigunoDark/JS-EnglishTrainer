@@ -2,6 +2,7 @@ import { ABSOLUTE_WINNER } from "./data/app.constants";
 import { initInterfaceManager } from "./app.component";
 import { IAppRender, IAppState } from "./app.types";
 import { localCash } from "./data/local-cash";
+import { addAddObserver } from "./render-management/render-management";
 export let missSpelling: boolean = false;
 
 export const setMissingSpelling = (value: boolean) => {
@@ -13,7 +14,6 @@ export const runApp = async ({
   lettersElement,
   currentQuestionElement,
   totalQuestionsElement,
-  warningElement,
 }: IAppRender) => {
   const [
     { WORDS_LIST, TRASH_ERROR_NOTIFICATION },
@@ -74,8 +74,10 @@ export const runApp = async ({
     });
 
     const { onKeyButtonClick, createButton, onKeyPress } = initInterfaceManager(
-      { lettersElement, warningElement, state }
+      { lettersElement, state }
     );
+
+    addAddObserver(render);
 
     window.addEventListener("keydown", onKeyPress);
 

@@ -21,8 +21,6 @@ const TRASH_ERROR_NOTIFICATION: string = "Something get wrong with you game";
 const START_PAGE_RENDER_FAILED: string =
   "It seems like you page is not loaded yet!";
 const MAX_ERRORS: number = 3;
-const SIMPLE_WRONG_LANGUAGE_WARNING: string =
-  "You need to use only english letters";
 
 export {
   ABSOLUTE_WINNER,
@@ -34,5 +32,4 @@ export {
   TRASH_ERROR_NOTIFICATION,
   MAX_ERRORS,
   START_PAGE_RENDER_FAILED,
-  SIMPLE_WRONG_LANGUAGE_WARNING,
 };

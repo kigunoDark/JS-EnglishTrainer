@@ -5,6 +5,7 @@ import {
   SUCCESS_DURATION,
 } from "../data/app.constants";
 import { IAppState, ICreateProxy } from "../app.types";
+import { defineObservers } from "../render-management/render-management";
 
 export const createProxy = ({
   initialState,
@@ -12,7 +13,6 @@ export const createProxy = ({
   answerElement,
   lettersElement,
   shuffleWord,
-  render,
   drawEndTable,
 }: ICreateProxy) => {
   const maxErrors: number = 3;
@@ -33,7 +33,7 @@ export const createProxy = ({
 
         if (target.currentWordIndex < sessionWords.length) {
           updateGameNextState();
-          setTimeout(() => render(target), SUCCESS_DURATION);
+          setTimeout(() => defineObservers(state), SUCCESS_DURATION);
         } else {
           setTimeout(() => {
             drawEndTable({

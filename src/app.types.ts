@@ -26,7 +26,6 @@ export type ICreateProxy = Pick<
 
 export interface IInitInterfaceManager {
   lettersElement: HTMLElement;
-  warningElement: HTMLElement;
   state: IAppState;
 }
 
@@ -36,7 +35,6 @@ export type IAppRender = Pick<
 > & {
   currentQuestionElement: HTMLElement;
   totalQuestionsElement: HTMLElement;
-  warningElement: HTMLElement;
 };
 
 export interface IAppState {
